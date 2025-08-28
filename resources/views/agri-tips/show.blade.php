@@ -5,20 +5,34 @@
 @section('content')
 <div class="space-y-6">
     <!-- Breadcrumb Navigation -->
-    <nav class="flex items-center space-x-2 text-sm text-gray-600">
-        <a href="{{ route('agri-tips.index') }}" class="hover:text-green-600 transition-colors">
+    <nav class="flex items-center space-x-2 text-sm text-gray-700 bg-white p-4 rounded-lg shadow-sm">
+        <a href="{{ route('agri-tips.index') }}" class="hover:text-green-700 transition-colors duration-200">
             কৃষি টিপস
         </a>
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
         </svg>
-        <span class="text-gray-900 font-medium">টিপস বিস্তারিত</span>
+        <span class="text-gray-800 font-medium">টিপস বিস্তারিত</span>
     </nav>
 
     <!-- Main Content Card -->
-    <div class="bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden">
+    <div class="bg-white rounded-2xl shadow-xl border border-gray-200 overflow-hidden">
+        @php
+            $barClass = match($agriTip->category->value) {
+                'crop_cultivation' => 'crop',
+                'pest_management' => 'pest',
+                'soil_care' => 'soil',
+                'irrigation' => 'irrigation',
+                'fertilizer' => 'fertilizer',
+                'harvesting' => 'harvesting',
+                'livestock' => 'livestock',
+                'weather' => 'weather',
+                default => 'crop'
+            };
+        @endphp
+        <div class="category-bar {{ $barClass }}"></div>
         <!-- Header Section -->
-        <div class="px-8 py-6 border-b border-gray-200 bg-gradient-to-r from-green-50 to-blue-50">
+        <div class="px-8 py-6 border-b border-gray-200 bg-green-50">
             <div class="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4">
                 <div class="flex-1">
                     <!-- Category Badge -->
@@ -53,14 +67,14 @@
                     </div>
                     
                     <!-- Title -->
-                    <h1 class="text-2xl lg:text-3xl font-bold text-gray-900 leading-tight mb-3">
+                    <h1 class="text-2xl lg:text-4xl font-bold text-gray-800 leading-tight mb-3">
                         {{ $agriTip->title }}
                     </h1>
                     
                     <!-- Meta Information -->
                     <div class="flex flex-wrap items-center gap-4 text-sm text-gray-600">
                         <div class="flex items-center">
-                            <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg class="w-4 h-4 mr-1.5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
                             </svg>
                             তৈরি: {{ $agriTip->created_at->format('d M Y, h:i A') }}
@@ -68,7 +82,7 @@
                         
                         @if($agriTip->updated_at->ne($agriTip->created_at))
                             <div class="flex items-center">
-                                <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <svg class="w-4 h-4 mr-1.5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
                                 </svg>
                                 আপডেট: {{ $agriTip->updated_at->format('d M Y, h:i A') }}
@@ -80,8 +94,8 @@
                 <!-- Action Buttons -->
                 <div class="flex flex-col sm:flex-row gap-3 lg:flex-col lg:w-auto">
                     <!-- Edit Button -->
-                    <a href="{{ route('agri-tips.edit', $agriTip) }}" 
-                       class="inline-flex items-center justify-center px-5 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-xl transition-all hover:scale-105 shadow-lg hover:shadow-xl">
+                    <a href="{{ route('agri-tips.edit', $agriTip) }}"
+                       class="inline-flex items-center justify-center px-5 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-xl transition-all duration-200 hover:scale-105 shadow-lg hover:shadow-xl">
                         <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
                         </svg>
@@ -89,9 +103,9 @@
                     </a>
                     
                     <!-- Delete Button -->
-                    <button type="button" 
+                    <button type="button"
                             onclick="confirmDelete()"
-                            class="inline-flex items-center justify-center px-5 py-3 bg-red-600 hover:bg-red-700 text-white font-medium rounded-xl transition-all hover:scale-105 shadow-lg hover:shadow-xl">
+                            class="inline-flex items-center justify-center px-5 py-3 bg-red-600 hover:bg-red-700 text-white font-medium rounded-xl transition-all duration-200 hover:scale-105 shadow-lg hover:shadow-xl">
                         <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
                         </svg>
@@ -104,8 +118,8 @@
         <!-- Content Section -->
         <div class="px-6 py-6">
             <div class="prose prose-lg max-w-none">
-                <h2 class="text-lg font-semibold text-gray-900 mb-4 flex items-center">
-                    <svg class="w-5 h-5 mr-2 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <h2 class="text-xl font-semibold text-gray-800 mb-4 flex items-center">
+                    <svg class="w-6 h-6 mr-2 text-green-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
                     </svg>
                     বিস্তারিত বিবরণ
@@ -120,16 +134,16 @@
     
     <!-- Navigation Actions -->
     <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pt-4">
-        <a href="{{ route('agri-tips.index') }}" 
-           class="inline-flex items-center px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium rounded-lg transition-colors">
+        <a href="{{ route('agri-tips.index') }}"
+           class="inline-flex items-center px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-700 font-medium rounded-lg transition-colors duration-200">
             <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
             </svg>
             সব টিপসে ফিরে যান
         </a>
         
-        <a href="{{ route('agri-tips.create') }}" 
-           class="inline-flex items-center px-4 py-2 bg-green-600 hover:bg-green-700 text-white font-medium rounded-lg transition-colors">
+        <a href="{{ route('agri-tips.create') }}"
+           class="btn-primary inline-flex items-center">
             <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
             </svg>
@@ -154,11 +168,11 @@
             
             <!-- Modal Content -->
             <div class="mb-6">
-                <p class="text-gray-600 mb-3">
+                <p class="text-gray-700 mb-3">
                     আপনি কি নিশ্চিত যে এই কৃষি টিপসটি মুছে ফেলতে চান?
                 </p>
-                <div class="bg-gray-50 rounded-lg p-3 border-l-4 border-red-400">
-                    <p class="text-sm text-gray-700 font-medium">{{ $agriTip->title }}</p>
+                <div class="bg-gray-100 rounded-lg p-3 border-l-4 border-red-400">
+                    <p class="text-sm text-gray-800 font-medium">{{ $agriTip->title }}</p>
                 </div>
                 <p class="text-sm text-red-600 mt-3 font-medium">
                     ⚠️ এই কাজটি পূর্বাবস্থায় ফেরানো যাবে না।
@@ -167,17 +181,17 @@
             
             <!-- Modal Actions -->
             <div class="flex flex-col sm:flex-row gap-3 sm:justify-end">
-                <button type="button" 
+                <button type="button"
                         onclick="closeDeleteModal()"
-                        class="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium rounded-lg transition-colors">
+                        class="px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-700 font-medium rounded-lg transition-colors duration-200">
                     বাতিল করুন
                 </button>
                 
                 <form method="POST" action="{{ route('agri-tips.destroy', $agriTip) }}" class="inline">
                     @csrf
                     @method('DELETE')
-                    <button type="submit" 
-                            class="w-full sm:w-auto px-4 py-2 bg-red-600 hover:bg-red-700 text-white font-medium rounded-lg transition-colors">
+                    <button type="submit"
+                            class="w-full sm:w-auto px-4 py-2 bg-red-600 hover:bg-red-700 text-white font-medium rounded-lg transition-colors duration-200">
                         হ্যাঁ, মুছে ফেলুন
                     </button>
                 </form>

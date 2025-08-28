@@ -5,10 +5,10 @@
 @section('content')
 <div class="max-w-2xl mx-auto">
     <!-- Page Header -->
-    <div class="mb-8">
+    <div class="mb-8 bg-white p-6 rounded-lg shadow-md">
         <div class="flex items-center space-x-4 mb-4">
-            <a href="{{ route('agri-tips.index') }}" 
-               class="inline-flex items-center text-gray-600 hover:text-gray-900 transition-colors">
+            <a href="{{ route('agri-tips.index') }}"
+               class="inline-flex items-center text-gray-700 hover:text-green-700 transition-colors duration-200">
                 <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
                 </svg>
@@ -16,20 +16,20 @@
             </a>
         </div>
         
-        <h1 class="text-3xl font-bold text-gray-900">নতুন কৃষি টিপস যোগ করুন</h1>
+        <h1 class="text-3xl font-bold text-gray-800">নতুন কৃষি টিপস যোগ করুন</h1>
         <p class="text-gray-600 mt-2">কৃষি বিষয়ক সহায়ক তথ্য ও পরামর্শ শেয়ার করুন</p>
     </div>
 
     <!-- Form Card -->
-    <div class="bg-white rounded-2xl shadow-xl border border-gray-100">
-        <div class="bg-gradient-to-r from-green-50 to-blue-50 px-6 py-4 rounded-t-2xl border-b border-gray-100">
+    <div class="bg-white rounded-2xl shadow-xl border border-gray-200">
+        <div class="bg-green-100 px-6 py-4 rounded-t-2xl border-b border-gray-200">
             <div class="flex items-center space-x-3">
-                <div class="w-8 h-8 gradient-bg rounded-lg flex items-center justify-center">
+                <div class="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
                     <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
                         <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd"/>
                     </svg>
                 </div>
-                <h2 class="text-lg font-semibold text-gray-900">✍️ নতুন টিপস তৈরি করুন</h2>
+                <h2 class="text-xl font-semibold text-gray-800">✍️ নতুন টিপস তৈরি করুন</h2>
             </div>
         </div>
         <form method="POST" action="{{ route('agri-tips.store') }}" id="createTipForm" class="p-8 space-y-6">
@@ -37,15 +37,15 @@
             
             <!-- Title Field -->
             <div>
-                <label for="title" class="block text-sm font-medium text-gray-700 mb-2">
+                <label for="title" class="block text-base font-medium text-gray-700 mb-2">
                     শিরোনাম <span class="text-red-500">*</span>
                 </label>
-                <input type="text" 
-                       name="title" 
-                       id="title" 
+                <input type="text"
+                       name="title"
+                       id="title"
                        value="{{ old('title') }}"
                        maxlength="255"
-                       class="w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 @error('title') border-red-300 focus:border-red-500 focus:ring-red-500 @enderror"
+                       class="w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 text-base @error('title') border-red-300 focus:border-red-500 focus:ring-red-500 @enderror"
                        placeholder="কৃষি টিপসের শিরোনাম লিখুন..."
                        required>
                 
@@ -62,12 +62,12 @@
 
             <!-- Category Field -->
             <div>
-                <label for="category" class="block text-sm font-medium text-gray-700 mb-2">
+                <label for="category" class="block text-base font-medium text-gray-700 mb-2">
                     বিভাগ <span class="text-red-500">*</span>
                 </label>
-                <select name="category" 
-                        id="category" 
-                        class="w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 @error('category') border-red-300 focus:border-red-500 focus:ring-red-500 @enderror"
+                <select name="category"
+                        id="category"
+                        class="w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 text-base py-2 @error('category') border-red-300 focus:border-red-500 focus:ring-red-500 @enderror"
                         required>
                     <option value="">বিভাগ নির্বাচন করুন</option>
                     @foreach($categories as $value => $label)
@@ -84,15 +84,15 @@
 
             <!-- Description Field -->
             <div>
-                <label for="description" class="block text-sm font-medium text-gray-700 mb-2">
+                <label for="description" class="block text-base font-medium text-gray-700 mb-2">
                     বিবরণ <span class="text-red-500">*</span>
                 </label>
-                <textarea name="description" 
-                          id="description" 
-                          rows="8"
-                          class="w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 @error('description') border-red-300 focus:border-red-500 focus:ring-red-500 @enderror"
-                          placeholder="কৃষি টিপসের বিস্তারিত বিবরণ লিখুন..."
-                          required>{{ old('description') }}</textarea>
+                <textarea name="description"
+                           id="description"
+                           rows="8"
+                           class="w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 text-base @error('description') border-red-300 focus:border-red-500 focus:ring-red-500 @enderror"
+                           placeholder="কৃষি টিপসের বিস্তারিত বিবরণ লিখুন..."
+                           required>{{ old('description') }}</textarea>
                 
                 <!-- Character Counter -->
                 <div class="flex justify-between items-center mt-1">
@@ -107,17 +107,17 @@
 
             <!-- Form Actions -->
             <div class="flex flex-col sm:flex-row gap-3 pt-4 border-t border-gray-200">
-                <button type="submit" 
+                <button type="submit"
                         id="submitBtn"
-                        class="flex-1 sm:flex-none inline-flex justify-center items-center px-8 py-4 btn-primary disabled:bg-gray-400 font-medium rounded-xl shadow-lg hover:shadow-xl">
+                        class="flex-1 sm:flex-none btn-primary inline-flex justify-center items-center disabled:opacity-50 disabled:cursor-not-allowed">
                     <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
                     </svg>
                     💾 টিপস সংরক্ষণ করুন
                 </button>
                 
-                <a href="{{ route('agri-tips.index') }}" 
-                   class="flex-1 sm:flex-none inline-flex justify-center items-center px-8 py-4 bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium rounded-xl transition-all hover:scale-105 shadow-md hover:shadow-lg">
+                <a href="{{ route('agri-tips.index') }}"
+                   class="flex-1 sm:flex-none inline-flex justify-center items-center px-8 py-4 bg-gray-200 hover:bg-gray-300 text-gray-700 font-medium rounded-xl transition-all duration-200 shadow-md hover:shadow-lg">
                     <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
                     </svg>
@@ -128,9 +128,9 @@
     </div>
 
     <!-- Help Text -->
-    <div class="mt-8 bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-2xl p-6 shadow-lg">
+    <div class="mt-8 bg-blue-50 border border-blue-200 rounded-2xl p-6 shadow-lg">
         <div class="flex items-start space-x-4">
-            <div class="w-10 h-10 bg-blue-500 rounded-xl flex items-center justify-center flex-shrink-0">
+            <div class="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center flex-shrink-0">
                 <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
                     <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
                 </svg>
@@ -139,19 +139,19 @@
                 <h4 class="font-bold mb-3 text-lg">💡 টিপস লেখার নির্দেশনা:</h4>
                 <ul class="space-y-2 text-blue-700">
                     <li class="flex items-center space-x-2">
-                        <span class="w-2 h-2 bg-blue-400 rounded-full"></span>
+                        <span class="w-2.5 h-2.5 bg-blue-400 rounded-full flex-shrink-0"></span>
                         <span>শিরোনাম সংক্ষিপ্ত ও স্পষ্ট রাখুন (সর্বোচ্চ ২৫৫ অক্ষর)</span>
                     </li>
                     <li class="flex items-center space-x-2">
-                        <span class="w-2 h-2 bg-blue-400 rounded-full"></span>
+                        <span class="w-2.5 h-2.5 bg-blue-400 rounded-full flex-shrink-0"></span>
                         <span>উপযুক্ত বিভাগ নির্বাচন করুন</span>
                     </li>
                     <li class="flex items-center space-x-2">
-                        <span class="w-2 h-2 bg-blue-400 rounded-full"></span>
+                        <span class="w-2.5 h-2.5 bg-blue-400 rounded-full flex-shrink-0"></span>
                         <span>বিবরণে বিস্তারিত ও কার্যকর তথ্য দিন</span>
                     </li>
                     <li class="flex items-center space-x-2">
-                        <span class="w-2 h-2 bg-blue-400 rounded-full"></span>
+                        <span class="w-2.5 h-2.5 bg-blue-400 rounded-full flex-shrink-0"></span>
                         <span>সহজ ও বোধগম্য ভাষা ব্যবহার করুন</span>
                     </li>
                 </ul>
@@ -302,17 +302,23 @@ document.addEventListener('DOMContentLoaded', function() {
 @push('styles')
 <style>
     /* Custom focus styles for better accessibility */
+    .focus\:border-green-500:focus {
+        border-color: var(--color-primary);
+    }
     .focus\:ring-green-500:focus {
-        --tw-ring-color: rgb(34 197 94 / 0.5);
+        --tw-ring-color: rgba(76, 175, 80, 0.5); /* Using primary color with transparency */
     }
     
+    .focus\:border-red-500:focus {
+        border-color: #EF4444;
+    }
     .focus\:ring-red-500:focus {
-        --tw-ring-color: rgb(239 68 68 / 0.5);
+        --tw-ring-color: rgba(239, 68, 68, 0.5);
     }
     
     /* Smooth transitions for validation states */
     input, select, textarea {
-        transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+        transition: all 0.2s ease-in-out;
     }
     
     /* Loading animation */

@@ -6,41 +6,63 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>@yield('title', 'কৃষি টিপস') - Agricultural Tips</title>
     
-    <!-- Bangla Font Support -->
+    <!-- Google Fonts: Noto Sans Bengali and Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+Bengali:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
     <!-- Vite Assets -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    
+    <!-- Additional Styles -->
+    @stack('styles')
 </head>
-<body class="bg-gray-50 font-bengali min-h-screen">
+<body class="soft-pattern font-bengali min-h-screen flex flex-col">
     <!-- Navigation -->
-    <nav class="bg-white shadow-sm border-b border-gray-200">
+    <nav class="bg-white/80 backdrop-blur sticky top-0 z-40 border-b border-gray-200 shadow-sm">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-16">
                 <div class="flex items-center">
                     <!-- Logo/Brand -->
-                    <a href="{{ route('agri-tips.index') }}" class="flex items-center space-x-2">
-                        <div class="w-8 h-8 bg-green-600 rounded-lg flex items-center justify-center">
-                            <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
-                                <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z"/>
+                    <a href="{{ route('agri-tips.index') }}" class="flex items-center space-x-3 group">
+                        <div class="w-10 h-10 bg-green-500 rounded-full flex items-center justify-center shadow-lg group-hover:scale-105 transition-transform duration-200 ease-in-out">
+                            <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 2L13.09 8.26L22 9L13.09 9.74L12 16L10.91 9.74L2 9L10.91 8.26L12 2Z"/>
+                                <path d="M12 16C12 16 16 18 16 22H8C8 18 12 16 12 16Z"/>
                             </svg>
                         </div>
-                        <span class="text-xl font-semibold text-gray-900">কৃষি টিপস</span>
+                        <div>
+                            <span class="text-xl font-bold text-gray-800">কৃষি টিপস</span>
+                            <div class="text-xs text-green-700 font-medium">Agricultural Tips</div>
+                        </div>
                     </a>
                 </div>
                 
                 <!-- Navigation Links -->
-                <div class="flex items-center space-x-4">
-                    <a href="{{ route('agri-tips.index') }}" 
-                       class="text-gray-700 hover:text-green-600 px-3 py-2 rounded-md text-sm font-medium transition-colors
-                              {{ request()->routeIs('agri-tips.index') ? 'text-green-600 bg-green-50' : '' }}">
-                        সব টিপস
+                <div class="flex items-center space-x-2">
+                    <a href="{{ route('welcome') }}"
+                       class="flex items-center space-x-2 text-gray-600 hover:text-green-700 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 hover:bg-green-50
+                               {{ request()->routeIs('welcome') ? 'text-green-700 bg-green-100 shadow-sm' : '' }}">
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/>
+                        </svg>
+                        <span>হোম</span>
                     </a>
-                    <a href="{{ route('agri-tips.create') }}" 
-                       class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors">
-                        নতুন টিপস যোগ করুন
+                    <a href="{{ route('agri-tips.index') }}"
+                       class="flex items-center space-x-2 text-gray-600 hover:text-green-700 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 hover:bg-green-50
+                               {{ request()->routeIs('agri-tips.*') && !request()->routeIs('agri-tips.create') ? 'text-green-700 bg-green-100 shadow-sm' : '' }}">
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                        <span>সব টিপস</span>
+                    </a>
+                    <a href="{{ route('agri-tips.create') }}"
+                       class="flex items-center space-x-2 btn-primary px-4 py-2 text-sm font-medium shadow-md hover:shadow-lg
+                               {{ request()->routeIs('agri-tips.create') ? 'bg-green-700' : '' }}">
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd"/>
+                        </svg>
+                        <span>নতুন টিপস</span>
                     </a>
                 </div>
             </div>
@@ -89,17 +111,34 @@
     @endif
 
     <!-- Main Content -->
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         @yield('content')
     </main>
 
     <!-- Footer -->
-    <footer class="bg-white border-t border-gray-200 mt-12">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-            <div class="text-center text-gray-600 text-sm">
-                <p>&copy; {{ date('Y') }} কৃষি টিপস। সকল অধিকার সংরক্ষিত।</p>
+    <footer class="footer-gradient text-white py-10 mt-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center">
+                <div class="flex items-center justify-center space-x-2 mb-3">
+                    <div class="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
+                        <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 2L13.09 8.26L22 9L13.09 9.74L12 16L10.91 9.74L2 9L10.91 8.26L12 2Z"/>
+                            <path d="M12 16C12 16 16 18 16 22H8C8 18 12 16 12 16Z"/>
+                        </svg>
+                    </div>
+                    <span class="text-xl font-bold">কৃষি টিপস</span>
+                </div>
+                <p class="text-gray-400 text-sm mb-2">
+                    🌱 কৃষি জ্ঞান ভাগাভাগির প্ল্যাটফর্ম
+                </p>
+                <p class="text-gray-500 text-xs">
+                    &copy; {{ date('Y') }} কৃষি টিপস। সকল অধিকার সংরক্ষিত।
+                </p>
             </div>
         </div>
     </footer>
+    
+    <!-- Additional Scripts -->
+    @stack('scripts')
 </body>
 </html>
