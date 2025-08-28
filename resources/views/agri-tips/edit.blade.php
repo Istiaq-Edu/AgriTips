@@ -164,6 +164,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const submitBtn = document.getElementById('submitBtn');
     const titleCounter = document.getElementById('titleCounter');
     const descriptionCounter = document.getElementById('descriptionCounter');
+    let isSubmitting = false;
 
     // Store original values to detect changes
     const originalValues = {
@@ -306,6 +307,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             }, 5000);
         } else {
+            // Mark as submitting to skip the beforeunload prompt on successful submit
+            isSubmitting = true;
             // Disable submit button to prevent double submission
             submitBtn.disabled = true;
             submitBtn.innerHTML = `
@@ -320,6 +323,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Warn user about unsaved changes when leaving page
     window.addEventListener('beforeunload', function(e) {
+        if (isSubmitting) {
+            return; // allow navigation without prompt during submit/redirect
+        }
         if (hasChanges()) {
             e.preventDefault();
             e.returnValue = 'আপনার পরিবর্তনগুলো সংরক্ষিত হয়নি। আপনি কি নিশ্চিত যে আপনি পেজ ছেড়ে যেতে চান?';
