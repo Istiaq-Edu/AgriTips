@@ -13,16 +13,26 @@ class AgriTipController extends Controller
      */
     public function index(Request $request)
     {
-        $query = AgriTip::latest();
-        
-        if ($request->filled('category')) {
-            $query->byCategory($request->category);
+        try {
+            $query = AgriTip::latest();
+            
+            // Apply category filter if provided
+            if ($request->filled('category')) {
+                $query->byCategory($request->category);
+            }
+            
+            $tips = $query->paginate(10);
+            $categories = TipCategory::options();
+            $selectedCategory = $request->get('category');
+            
+            return view('agri-tips.index', compact('tips', 'categories', 'selectedCategory'));
+        } catch (\Exception $e) {
+            return view('agri-tips.index', [
+                'tips' => collect(),
+                'categories' => TipCategory::options(),
+                'selectedCategory' => null
+            ])->with('error', 'কৃষি টিপ লোড করতে সমস্যা হয়েছে।');
         }
-        
-        $tips = $query->paginate(10);
-        $categories = TipCategory::options();
-        
-        return view('agri-tips.index', compact('tips', 'categories'));
     }
 
     /**
@@ -30,8 +40,13 @@ class AgriTipController extends Controller
      */
     public function create()
     {
-        $categories = TipCategory::options();
-        return view('agri-tips.create', compact('categories'));
+        try {
+            $categories = TipCategory::options();
+            return view('agri-tips.create', compact('categories'));
+        } catch (\Exception $e) {
+            return redirect()->route('agri-tips.index')
+                ->with('error', 'নতুন কৃষি টিপ তৈরির পেজ লোড করতে সমস্যা হয়েছে।');
+        }
     }
 
     /**
@@ -53,10 +68,15 @@ class AgriTipController extends Controller
             'category.in' => 'নির্বাচিত বিভাগটি বৈধ নয়।',
         ]);
 
-        AgriTip::create($data);
-
-        return redirect()->route('agri-tips.index')
-            ->with('success', 'কৃষি টিপ সফলভাবে তৈরি হয়েছে!');
+        try {
+            AgriTip::create($data);
+            return redirect()->route('agri-tips.index')
+                ->with('success', 'কৃষি টিপ সফলভাবে তৈরি হয়েছে!');
+        } catch (\Exception $e) {
+            return redirect()->back()
+                ->withInput()
+                ->with('error', 'কৃষি টিপ তৈরি করতে সমস্যা হয়েছে। আবার চেষ্টা করুন।');
+        }
     }
 
     /**
@@ -64,7 +84,12 @@ class AgriTipController extends Controller
      */
     public function show(AgriTip $agriTip)
     {
-        return view('agri-tips.show', compact('agriTip'));
+        try {
+            return view('agri-tips.show', compact('agriTip'));
+        } catch (\Exception $e) {
+            return redirect()->route('agri-tips.index')
+                ->with('error', 'অনুরোধকৃত কৃষি টিপটি খুঁজে পাওয়া যায়নি।');
+        }
     }
 
     /**
@@ -72,8 +97,13 @@ class AgriTipController extends Controller
      */
     public function edit(AgriTip $agriTip)
     {
-        $categories = TipCategory::options();
-        return view('agri-tips.edit', compact('agriTip', 'categories'));
+        try {
+            $categories = TipCategory::options();
+            return view('agri-tips.edit', compact('agriTip', 'categories'));
+        } catch (\Exception $e) {
+            return redirect()->route('agri-tips.show', $agriTip)
+                ->with('error', 'কৃষি টিপ সম্পাদনার পেজ লোড করতে সমস্যা হয়েছে।');
+        }
     }
 
     /**
@@ -95,10 +125,15 @@ class AgriTipController extends Controller
             'category.in' => 'নির্বাচিত বিভাগটি বৈধ নয়।',
         ]);
 
-        $agriTip->update($data);
-
-        return redirect()->route('agri-tips.show', $agriTip)
-            ->with('success', 'কৃষি টিপ সফলভাবে আপডেট হয়েছে!');
+        try {
+            $agriTip->update($data);
+            return redirect()->route('agri-tips.show', $agriTip)
+                ->with('success', 'কৃষি টিপ সফলভাবে আপডেট হয়েছে!');
+        } catch (\Exception $e) {
+            return redirect()->back()
+                ->withInput()
+                ->with('error', 'কৃষি টিপ আপডেট করতে সমস্যা হয়েছে। আবার চেষ্টা করুন।');
+        }
     }
 
     /**
@@ -106,9 +141,13 @@ class AgriTipController extends Controller
      */
     public function destroy(AgriTip $agriTip)
     {
-        $agriTip->delete();
-
-        return redirect()->route('agri-tips.index')
-            ->with('success', 'কৃষি টিপ সফলভাবে মুছে ফেলা হয়েছে!');
+        try {
+            $agriTip->delete();
+            return redirect()->route('agri-tips.index')
+                ->with('success', 'কৃষি টিপ সফলভাবে মুছে ফেলা হয়েছে!');
+        } catch (\Exception $e) {
+            return redirect()->back()
+                ->with('error', 'কৃষি টিপ মুছে ফেলতে সমস্যা হয়েছে। আবার চেষ্টা করুন।');
+        }
     }
 }

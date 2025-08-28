@@ -8,4 +8,33 @@
 @theme {
     --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
         'Segoe UI Symbol', 'Noto Color Emoji';
+    --font-bengali: 'Noto Sans Bengali', 'SolaimanLipi', 'Kalpurush', 'Nikosh', ui-sans-serif, system-ui, sans-serif;
+}
+
+/* Bangla Text Rendering Optimizations */
+.font-bengali {
+    font-family: var(--font-bengali);
+    font-feature-settings: "liga" 1, "calt" 1;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Ensure proper line height for Bangla text */
+.bangla-text {
+    line-height: 1.7;
+    word-spacing: 0.1em;
+}
+
+/* Form input styling for Bangla text */
+.bangla-input {
+    font-family: var(--font-bengali);
+    line-height: 1.6;
+}
+
+/* Responsive text sizing for Bangla */
+@media (max-width: 640px) {
+    .bangla-text {
+        line-height: 1.8;
+    }
 }
