@@ -21,8 +21,18 @@
     </div>
 
     <!-- Form Card -->
-    <div class="bg-white rounded-lg shadow-sm border border-gray-200">
-        <form method="POST" action="{{ route('agri-tips.store') }}" id="createTipForm" class="p-6 space-y-6">
+    <div class="bg-white rounded-2xl shadow-xl border border-gray-100">
+        <div class="bg-gradient-to-r from-green-50 to-blue-50 px-6 py-4 rounded-t-2xl border-b border-gray-100">
+            <div class="flex items-center space-x-3">
+                <div class="w-8 h-8 gradient-bg rounded-lg flex items-center justify-center">
+                    <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd"/>
+                    </svg>
+                </div>
+                <h2 class="text-lg font-semibold text-gray-900">✍️ নতুন টিপস তৈরি করুন</h2>
+            </div>
+        </div>
+        <form method="POST" action="{{ route('agri-tips.store') }}" id="createTipForm" class="p-8 space-y-6">
             @csrf
             
             <!-- Title Field -->
@@ -99,37 +109,51 @@
             <div class="flex flex-col sm:flex-row gap-3 pt-4 border-t border-gray-200">
                 <button type="submit" 
                         id="submitBtn"
-                        class="flex-1 sm:flex-none inline-flex justify-center items-center px-6 py-3 bg-green-600 hover:bg-green-700 disabled:bg-gray-400 text-white font-medium rounded-lg transition-colors">
+                        class="flex-1 sm:flex-none inline-flex justify-center items-center px-8 py-4 btn-primary disabled:bg-gray-400 font-medium rounded-xl shadow-lg hover:shadow-xl">
                     <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
                     </svg>
-                    টিপস সংরক্ষণ করুন
+                    💾 টিপস সংরক্ষণ করুন
                 </button>
                 
                 <a href="{{ route('agri-tips.index') }}" 
-                   class="flex-1 sm:flex-none inline-flex justify-center items-center px-6 py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium rounded-lg transition-colors">
+                   class="flex-1 sm:flex-none inline-flex justify-center items-center px-8 py-4 bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium rounded-xl transition-all hover:scale-105 shadow-md hover:shadow-lg">
                     <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
                     </svg>
-                    বাতিল করুন
+                    ❌ বাতিল করুন
                 </a>
             </div>
         </form>
     </div>
 
     <!-- Help Text -->
-    <div class="mt-6 bg-blue-50 border border-blue-200 rounded-lg p-4">
-        <div class="flex items-start space-x-3">
-            <svg class="w-5 h-5 text-blue-600 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
-            </svg>
+    <div class="mt-8 bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-2xl p-6 shadow-lg">
+        <div class="flex items-start space-x-4">
+            <div class="w-10 h-10 bg-blue-500 rounded-xl flex items-center justify-center flex-shrink-0">
+                <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
+                </svg>
+            </div>
             <div class="text-sm text-blue-800">
-                <h4 class="font-medium mb-1">টিপস লেখার নির্দেশনা:</h4>
-                <ul class="space-y-1 text-blue-700">
-                    <li>• শিরোনাম সংক্ষিপ্ত ও স্পষ্ট রাখুন (সর্বোচ্চ ২৫৫ অক্ষর)</li>
-                    <li>• উপযুক্ত বিভাগ নির্বাচন করুন</li>
-                    <li>• বিবরণে বিস্তারিত ও কার্যকর তথ্য দিন</li>
-                    <li>• সহজ ও বোধগম্য ভাষা ব্যবহার করুন</li>
+                <h4 class="font-bold mb-3 text-lg">💡 টিপস লেখার নির্দেশনা:</h4>
+                <ul class="space-y-2 text-blue-700">
+                    <li class="flex items-center space-x-2">
+                        <span class="w-2 h-2 bg-blue-400 rounded-full"></span>
+                        <span>শিরোনাম সংক্ষিপ্ত ও স্পষ্ট রাখুন (সর্বোচ্চ ২৫৫ অক্ষর)</span>
+                    </li>
+                    <li class="flex items-center space-x-2">
+                        <span class="w-2 h-2 bg-blue-400 rounded-full"></span>
+                        <span>উপযুক্ত বিভাগ নির্বাচন করুন</span>
+                    </li>
+                    <li class="flex items-center space-x-2">
+                        <span class="w-2 h-2 bg-blue-400 rounded-full"></span>
+                        <span>বিবরণে বিস্তারিত ও কার্যকর তথ্য দিন</span>
+                    </li>
+                    <li class="flex items-center space-x-2">
+                        <span class="w-2 h-2 bg-blue-400 rounded-full"></span>
+                        <span>সহজ ও বোধগম্য ভাষা ব্যবহার করুন</span>
+                    </li>
                 </ul>
             </div>
         </div>

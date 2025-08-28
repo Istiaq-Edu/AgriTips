@@ -86,7 +86,7 @@
     @if($tips->count() > 0)
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             @foreach($tips as $tip)
-                <div class="bg-white rounded-lg shadow-sm border border-gray-200 hover:shadow-md transition-shadow duration-200">
+                <div class="bg-white rounded-xl shadow-lg border border-gray-100 card-hover">
                     <!-- Card Header -->
                     <div class="p-4 border-b border-gray-100">
                         <div class="flex items-start justify-between gap-3">
@@ -98,8 +98,32 @@
                             </h3>
                             
                             <!-- Category Badge -->
-                            <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800 whitespace-nowrap">
-                                {{ $categories[$tip->category] ?? $tip->category }}
+                            @php
+                                $categoryClass = match($tip->category->value) {
+                                    'crop_cultivation' => 'category-crop',
+                                    'pest_management' => 'category-pest',
+                                    'soil_care' => 'category-soil',
+                                    'irrigation' => 'category-irrigation',
+                                    'fertilizer' => 'category-fertilizer',
+                                    'harvesting' => 'category-harvesting',
+                                    'livestock' => 'category-livestock',
+                                    'weather' => 'category-weather',
+                                    default => 'category-crop'
+                                };
+                                $categoryIcon = match($tip->category->value) {
+                                    'crop_cultivation' => '🌱',
+                                    'pest_management' => '🐛',
+                                    'soil_care' => '🌍',
+                                    'irrigation' => '💧',
+                                    'fertilizer' => '🧪',
+                                    'harvesting' => '🌾',
+                                    'livestock' => '🐄',
+                                    'weather' => '🌤️',
+                                    default => '🌱'
+                                };
+                            @endphp
+                            <span class="category-badge {{ $categoryClass }} whitespace-nowrap">
+                                {{ $categoryIcon }} {{ $tip->category->labelBangla() }}
                             </span>
                         </div>
                     </div>
@@ -112,10 +136,10 @@
                     </div>
                     
                     <!-- Card Footer -->
-                    <div class="px-4 py-3 bg-gray-50 border-t border-gray-100 rounded-b-lg">
+                    <div class="px-4 py-3 bg-gradient-to-r from-gray-50 to-gray-100 border-t border-gray-100 rounded-b-xl">
                         <div class="flex items-center justify-between">
                             <div class="flex items-center text-xs text-gray-500">
-                                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <svg class="w-4 h-4 mr-1.5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
                                           d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
                                 </svg>
@@ -123,7 +147,7 @@
                             </div>
                             
                             <a href="{{ route('agri-tips.show', $tip) }}" 
-                               class="inline-flex items-center text-sm font-medium text-green-600 hover:text-green-700 transition-colors">
+                               class="inline-flex items-center text-sm font-medium text-green-600 hover:text-green-700 transition-all hover:scale-105">
                                 বিস্তারিত দেখুন
                                 <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>

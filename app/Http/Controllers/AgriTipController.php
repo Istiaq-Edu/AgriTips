@@ -15,15 +15,18 @@ class AgriTipController extends Controller
     {
         try {
             $query = AgriTip::latest();
+            $categories = TipCategory::options();
+            $selectedCategory = $request->get('category');
             
-            // Apply category filter if provided
-            if ($request->filled('category')) {
+            // Validate category and apply filter if provided and valid
+            if ($request->filled('category') && array_key_exists($selectedCategory, $categories)) {
                 $query->byCategory($request->category);
+            } else {
+                // If invalid category provided, reset to null
+                $selectedCategory = null;
             }
             
             $tips = $query->paginate(10);
-            $categories = TipCategory::options();
-            $selectedCategory = $request->get('category');
             
             return view('agri-tips.index', compact('tips', 'categories', 'selectedCategory'));
         } catch (\Exception $e) {
@@ -142,10 +145,27 @@ class AgriTipController extends Controller
     public function destroy(AgriTip $agriTip)
     {
         try {
+            // Check if the tip still exists (in case of concurrent deletion)
+            if (!$agriTip->exists) {
+                return redirect()->route('agri-tips.index')
+                    ->with('error', 'এই কৃষি টিপটি আগেই মুছে ফেলা হয়েছে।');
+            }
+            
+            // Store tip title for success message
+            $tipTitle = $agriTip->title;
+            
+            // Delete the tip
             $agriTip->delete();
+            
             return redirect()->route('agri-tips.index')
-                ->with('success', 'কৃষি টিপ সফলভাবে মুছে ফেলা হয়েছে!');
+                ->with('success', "কৃষি টিপ \"{$tipTitle}\" সফলভাবে মুছে ফেলা হয়েছে!");
         } catch (\Exception $e) {
+            // Log the error for debugging
+            \Log::error('Failed to delete AgriTip: ' . $e->getMessage(), [
+                'tip_id' => $agriTip->id,
+                'tip_title' => $agriTip->title ?? 'Unknown'
+            ]);
+            
             return redirect()->back()
                 ->with('error', 'কৃষি টিপ মুছে ফেলতে সমস্যা হয়েছে। আবার চেষ্টা করুন।');
         }
